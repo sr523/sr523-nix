@@ -135,6 +135,7 @@ and `home/sr523.nix` (Nix-managed).
 | `opencode` | Terminal-based agentic coding assistant |
 | `claude-code` | Anthropic's agentic coding CLI (cask) |
 | `aider` | AI pair programming in the terminal |
+| `pi` | Minimal, extensible agentic coding assistant ([pi.dev](https://pi.dev), npm-managed) |
 | `ollama` | Run local LLMs |
 
 ### Other
@@ -154,4 +155,6 @@ and `home/sr523.nix` (Nix-managed).
 - GUI apps  -> `casks` in `modules/homebrew.nix`
 - Taps      -> `taps` in `modules/homebrew.nix`
 - User dotfiles / Nix packages -> `home/sr523.nix`
+- npm globals not yet in nixpkgs/Homebrew (e.g. `pi`) -> a
+  `home.activation` script in `home/sr523.nix`
 - System settings -> `modules/darwin.nix`

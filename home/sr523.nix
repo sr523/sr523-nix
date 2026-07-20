@@ -38,6 +38,18 @@
     fi
   '';
 
+  # --- Pi coding agent -------------------------------------------------------
+  # Pi (https://pi.dev) is a minimal, extensible agentic coding assistant
+  # distributed on npm as @earendil-works/pi-coding-agent. It isn't in nixpkgs
+  # or Homebrew yet, so we install it globally with the Nix-managed nodejs.
+  # The `--ignore-scripts` flag matches the vendor's recommended npm install.
+  # Re-runs on every activation to keep it up to date; remove ~/.pi to reset.
+  home.activation.pi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    export PATH="${pkgs.nodejs}/bin:$PATH"
+    run ${pkgs.nodejs}/bin/npm install -g --ignore-scripts \
+      @earendil-works/pi-coding-agent
+  '';
+
   # --- Git -------------------------------------------------------------------
   programs.git = {
     enable = true;
