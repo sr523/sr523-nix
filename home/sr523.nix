@@ -44,9 +44,14 @@
   # or Homebrew yet, so we install it globally with the Nix-managed nodejs.
   # The `--ignore-scripts` flag matches the vendor's recommended npm install.
   # Re-runs on every activation to keep it up to date; remove ~/.pi to reset.
+  # npm's default global prefix lives inside the read-only Nix store, so a
+  # plain `npm install -g` fails with EACCES on a fresh machine. Point the
+  # prefix at a writable dir under $HOME instead (see PATH export in zsh below).
   home.activation.pi = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     export PATH="${pkgs.nodejs}/bin:$PATH"
-    run ${pkgs.nodejs}/bin/npm install -g --ignore-scripts \
+    NPM_PREFIX="${config.home.homeDirectory}/.npm-global"
+    run mkdir -p "$NPM_PREFIX"
+    run ${pkgs.nodejs}/bin/npm install -g --prefix "$NPM_PREFIX" --ignore-scripts \
       @earendil-works/pi-coding-agent
   '';
 
@@ -70,5 +75,9 @@
       # Rebuild + switch this flake from anywhere.
       drs = "darwin-rebuild switch --flake ~/Documents/src/sross-nix";
     };
+    # Make globally-installed npm binaries (e.g. pi) available on PATH.
+    initExtra = ''
+      export PATH="$HOME/.npm-global/bin:$PATH"
+    '';
   };
 }
