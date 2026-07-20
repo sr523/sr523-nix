@@ -44,7 +44,6 @@
       "kind"
       "kube-ps1"
       "neovim"
-      "nightlight"
       "ollama"
       "opencode"
       "openssh"

@@ -89,7 +89,6 @@ and `home/sr523.nix` (Nix-managed).
 | `ripgrep` | Fast recursive search (`rg`) |
 | `fd` | Fast file finder |
 | `glow` / `hf` | Markdown renderer / Hugging Face CLI |
-| `nightlight` | macOS Night Shift control |
 | `openssh` | SSH client/server |
 
 ### Text editors
