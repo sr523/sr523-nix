@@ -39,21 +39,35 @@
     dock = {
       autohide = true;
       show-recents = false;
-      tilesize = 48;
+      tilesize = 32; # small icons on the Dock
     };
 
     finder = {
       AppleShowAllExtensions = true;
       ShowPathbar = true;
-      FXPreferredViewStyle = "Nlsv"; # list view
+      FXPreferredViewStyle = "Nlsv"; # list view for files/folders
+      CreateDesktop = false; # hide all icons on the desktop
     };
 
     NSGlobalDomain = {
-      AppleInterfaceStyleSwitchesAutomatically = true;
+      AppleInterfaceStyle = "Dark"; # force dark mode
       KeyRepeat = 2;
       InitialKeyRepeat = 15;
+      _HIHideMenuBar = true; # auto-hide the menu bar (toolbar)
     };
   };
+
+  # --- Night Shift (always on) ----------------------------------------------
+  # nix-darwin has no declarative option for Night Shift, so drive the
+  # `nightlight` CLI (installed via Homebrew) on each activation. A schedule of
+  # 3:00 -> 2:59 keeps Night Shift active ~24h/day.
+  system.activationScripts.nightShift.text = ''
+    NIGHTLIGHT=/opt/homebrew/bin/nightlight
+    if [ -x "$NIGHTLIGHT" ]; then
+      sudo -u ${username} "$NIGHTLIGHT" schedule 3:00 2:59 || true
+      sudo -u ${username} "$NIGHTLIGHT" on || true
+    fi
+  '';
 
   # --- State version ---------------------------------------------------------
   # Do not change after first switch unless you know why.

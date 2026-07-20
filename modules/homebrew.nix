@@ -22,12 +22,14 @@
       "huseyinbabal/tap"
       "kreuzwerker/taps"
       "pantheon-systems/external"
+      "smudge/smudge"
     ];
 
     # CLI tools (formulae).
     brews = [
       "aider"
       "atlassian/acli/acli"
+      "awscli"
       "chamber"
       "colima"
       "docker"
@@ -42,6 +44,7 @@
       "kind"
       "kube-ps1"
       "neovim"
+      "nightlight"
       "ollama"
       "opencode"
       "openssh"
@@ -61,6 +64,7 @@
       "dbeaver-community"
       "ghostty"
       "openra"
+      "visual-studio-code"
     ];
 
     # Mac App Store apps (requires `mas`). Add entries like:

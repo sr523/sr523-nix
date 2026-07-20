@@ -60,6 +60,83 @@ nix flake check
 darwin-rebuild build --flake .#VMIT-FMGHQYVHM6   # after nix-darwin is installed
 ```
 
+## Installed packages
+
+Since this is primarily a development configuration, the installed packages are
+grouped by purpose below. Package sources: `modules/homebrew.nix` (brews/casks)
+and `home/sr523.nix` (Nix-managed).
+
+### Terminal tools
+
+| Package | Description |
+| --- | --- |
+| `ghostty` | GPU-accelerated terminal emulator (cask) |
+| `tmux` | Terminal multiplexer |
+| `zsh` | Z shell (with autosuggestions + syntax highlighting via home-manager) |
+| `kube-ps1` | Kubernetes context/namespace prompt segment |
+| `ripgrep` | Fast recursive search (`rg`) |
+| `fd` | Fast file finder |
+| `glow` / `hf` | Markdown renderer / Hugging Face CLI |
+| `nightlight` | macOS Night Shift control |
+| `openssh` | SSH client/server |
+
+### Text editors
+
+| Package | Description |
+| --- | --- |
+| `neovim` | Neovim, bootstrapped with the LazyVim starter |
+| `helix` | Modal post-modern text editor |
+| `visual-studio-code` | Visual Studio Code (cask) |
+| `lazygit` | Terminal git UI (LazyVim `<leader>gg`) |
+| `tree-sitter` | Incremental parsing library for editor syntax highlighting |
+
+### Infrastructure (k8s, AWS)
+
+| Package | Description |
+| --- | --- |
+| `awscli` | AWS command-line interface |
+| `taws` | AWS helper CLI (huseyinbabal tap) |
+| `chamber` | AWS SSM-backed secrets management |
+| `terraform` | Infrastructure as code |
+| `helm` | Kubernetes package manager |
+| `kind` | Kubernetes in Docker (local clusters) |
+| `k9s` | Kubernetes TUI (derailed tap) |
+| `colima` | Container runtime for macOS |
+| `docker` / `docker-compose` | Container tooling |
+| `valkey` | Redis-compatible in-memory data store |
+
+### Language-specific / build tools
+
+| Package | Description |
+| --- | --- |
+| `gcc` | C compiler (builds treesitter parsers) |
+| `gnumake` | GNU Make |
+| `nodejs` | Node.js runtime (LSP servers / mason tools) |
+| `php` | PHP runtime |
+| `pyenv` | Python version manager |
+| `pipx` | Install Python CLI apps in isolated envs |
+| `pre-commit` | Git pre-commit hook framework |
+
+### AI-assisted programming (agentic)
+
+| Package | Description |
+| --- | --- |
+| `opencode` | Terminal-based agentic coding assistant |
+| `claude-code` | Anthropic's agentic coding CLI (cask) |
+| `aider` | AI pair programming in the terminal |
+| `ollama` | Run local LLMs |
+
+### Other
+
+| Package | Description |
+| --- | --- |
+| `gh` | GitHub CLI |
+| `git` | Version control (configured via home-manager) |
+| `acli` | Atlassian CLI |
+| `herdr` | Herd runner utility |
+| `dbeaver-community` | Database GUI client (cask) |
+| `openra` | Open-source Command & Conquer engine (cask) |
+
 ## Adding packages
 
 - CLI tools -> `brews` in `modules/homebrew.nix`

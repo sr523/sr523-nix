@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, lib, config, username, ... }:
 
 {
   home.username = username;
@@ -14,7 +14,29 @@
   # Prefer Homebrew (see modules/homebrew.nix) for most tools per this
   # project's setup. Put small, Nix-friendly extras here.
   home.packages = with pkgs; [
+    # LazyVim runtime dependencies. Neovim itself is installed via Homebrew.
+    ripgrep # required by Telescope live-grep
+    fd # faster file finding
+    gcc # C compiler for building treesitter parsers
+    gnumake
+    lazygit # LazyVim's built-in git UI (<leader>gg)
+    tree-sitter
+    nodejs # many LSP servers / mason tools need node
   ];
+
+  # --- LazyVim ---------------------------------------------------------------
+  # LazyVim manages its own plugins at runtime via lazy.nvim, so its config dir
+  # must be writable (home-manager symlinks into the read-only nix store won't
+  # work). We bootstrap the official starter once; after that the directory is
+  # yours to edit/version-control. Delete ~/.config/nvim to re-bootstrap.
+  home.activation.lazyvim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    NVIM_CONFIG="${config.xdg.configHome}/nvim"
+    if [ ! -e "$NVIM_CONFIG/init.lua" ]; then
+      run ${pkgs.git}/bin/git clone --depth 1 \
+        https://github.com/LazyVim/starter "$NVIM_CONFIG"
+      run rm -rf "$NVIM_CONFIG/.git"
+    fi
+  '';
 
   # --- Git -------------------------------------------------------------------
   programs.git = {
