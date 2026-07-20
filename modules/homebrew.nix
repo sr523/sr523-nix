@@ -19,6 +19,7 @@
     taps = [
       "atlassian/acli"
       "derailed/k9s"
+      "hashicorp/tap"
       "huseyinbabal/tap"
       "kreuzwerker/taps"
       "pantheon-systems/external"
@@ -51,7 +52,7 @@
       "pipx"
       "pre-commit"
       "pyenv"
-      "terraform"
+      "hashicorp/tap/terraform"
       "tmux"
       "valkey"
       "zsh"
