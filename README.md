@@ -40,6 +40,18 @@ cd ~/Documents/src/sross-nix
 nix run nix-darwin -- switch --flake .#VMIT-FMGHQYVHM6
 ```
 
+> On a fresh machine the `nix-command` and `flakes` experimental features may
+> not be enabled yet, producing an error like
+> `experimental Nix feature 'nix-command' is disabled`. Enable them for the
+> single command with:
+>
+> ```sh
+> nix --extra-experimental-features "nix-command flakes" \
+>   run nix-darwin -- switch --flake .#VMIT-FMGHQYVHM6
+> ```
+>
+> (nix-darwin enables these permanently once the first switch completes.)
+
 `nix-homebrew` is configured with `autoMigrate = true`, so it adopts your
 existing `/opt/homebrew` install rather than reinstalling it.
 
