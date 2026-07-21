@@ -49,6 +49,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            # On the first switch, pre-existing hand-written dotfiles (e.g. an
+            # old ~/.zshrc / ~/.zprofile) would make home-manager abort with a
+            # "would be overwritten" error. Rename them to *.hm-backup instead.
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = { inherit inputs username; };
             home-manager.users.${username} = import ./home/${username}.nix;
           }

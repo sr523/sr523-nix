@@ -71,12 +71,33 @@
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+
+    # oh-my-zsh framework. home-manager installs it into the Nix store and
+    # generates the .zshrc that sources it; no manual `git clone` needed.
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [
+        "git"
+        "aws"
+        "docker"
+        "kubectl"
+        "tmux"
+      ];
+    };
+
     shellAliases = {
       # Rebuild + switch this flake from anywhere.
       drs = "darwin-rebuild switch --flake ~/Documents/src/sross-nix";
     };
-    # Make globally-installed npm binaries (e.g. pi) available on PATH.
+
+    # PATH setup. home-manager takes over ~/.zshrc, and its zsh does NOT add
+    # Homebrew to PATH automatically — so without this, brew tools (tmux, aws,
+    # opencode, etc.) disappear from the shell after `darwin-rebuild switch`.
+    # `brew shellenv` prepends /opt/homebrew/{bin,sbin}. We also add the
+    # npm global prefix so globally-installed npm binaries (e.g. pi) are found.
     initExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
       export PATH="$HOME/.npm-global/bin:$PATH"
     '';
   };
