@@ -13,6 +13,7 @@ Homebrew is the primary package manager; Nix orchestrates it declaratively.
 flake.nix            # inputs + darwinConfigurations wiring
 modules/darwin.nix   # system-level macOS config
 modules/homebrew.nix # taps / brews / casks / masApps
+modules/cuvpn.nix    # seeds the Cornell CU VPN connection profile
 home/sr523.nix       # home-manager user config (git, zsh, packages)
 ```
 
@@ -148,6 +149,43 @@ and `home/sr523.nix` (Nix-managed).
 | `herdr` | Herd runner utility |
 | `dbeaver-community` | Database GUI client (cask) |
 | `openra` | Open-source Command & Conquer engine (cask) |
+| Cisco Secure Client | Cornell CU VPN — profile seeded by `modules/cuvpn.nix`; client installed manually (see below) |
+
+## Cornell CU VPN
+
+Cornell's [CU VPN](https://it.cornell.edu/cuvpn) uses the **Cisco Secure
+Client** (formerly AnyConnect). Unlike everything else here, the client itself
+**can't be installed declaratively**: it isn't a Homebrew cask, and its
+installer is gated behind NetID + Duo authentication.
+
+`modules/cuvpn.nix` does the part that *can* be reproducible — on every
+`darwin-rebuild switch` it writes a connection profile to
+`/opt/cisco/secureclient/vpn/profile/cuvpn.xml` pointing at
+`cuvpn.cuvpn.cornell.edu`, so the connection is preconfigured in the client's
+dropdown. If the client isn't installed yet, the step is a no-op and prints a
+hint.
+
+### One-time client install
+
+1. Go to <https://cuvpn.cuvpn.cornell.edu> and sign in:
+   - **Group**: `Two-Step_Login`
+   - **Username**: your NetID email, e.g. `sr523@cornell.edu`
+   - **Password**: your NetID password
+   - **Duo**: `push`
+2. On the Downloads page, choose **Download** -> **macOS** and open the DMG.
+3. Run the installer (admin password required). Ensure **VPN** is selected;
+   everything else can be left off.
+4. Re-run `drs` (or `darwin-rebuild switch`) so the `cuvpn.cuvpn.cornell.edu`
+   profile is seeded into the freshly installed client.
+
+> Cornell note (April 2026): on unmanaged Macs, deleting
+> `Applications/Cisco/Cisco Secure Client - Socket Filter.app` after install can
+> resolve performance/Zoom issues.
+
+### Connecting
+
+Open **Cisco Secure Client**, pick `cuvpn.cuvpn.cornell.edu` from the dropdown,
+click **Connect**, and authenticate with the group / NetID / Duo values above.
 
 ## Adding packages
 
@@ -158,3 +196,4 @@ and `home/sr523.nix` (Nix-managed).
 - npm globals not yet in nixpkgs/Homebrew (e.g. `pi`) -> a
   `home.activation` script in `home/sr523.nix`
 - System settings -> `modules/darwin.nix`
+- Cornell CU VPN profile -> `modules/cuvpn.nix` (see "Cornell CU VPN" above)

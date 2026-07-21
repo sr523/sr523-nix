@@ -31,6 +31,7 @@
         modules = [
           ./modules/darwin.nix
           ./modules/homebrew.nix
+          ./modules/cuvpn.nix
 
           nix-homebrew.darwinModules.nix-homebrew
           {
